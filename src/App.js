@@ -1,25 +1,42 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
+
+
+
+function App(props) {
+
+  const [position, setPosition] = React.useState({});
+  const [error, setError] = React.useState(null);
+
+  const onChange = ({coords}) => {
+    setPosition({
+      latitude: coords.latitude,
+      longitude: coords.longitude,
+    });
+  };
+  const onError = (error) => {
+    setError(error.message);
+  };
+  React.useEffect(() => {
+    const geo = navigator.geolocation;
+    if (!geo) {
+      setError('Geolocation is not supported');
+      return;
+    }
+    let watcher = geo.watchPosition(onChange, onError);
+    return () => geo.clearWatch(watcher);
+  }, []);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="App">
+
+        {position.latitude}
+        {position.longitude}
+        {error}
+
+      </div>
   );
 }
 

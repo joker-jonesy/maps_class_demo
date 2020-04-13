@@ -1,5 +1,7 @@
 import React from 'react';
 import './App.css';
+import GoogleMapReact from 'google-map-react';
+import Circle from "./components/Circle";
 
 function App() {
 
@@ -31,11 +33,6 @@ function App() {
     return ()=> geo.clearWatch(watcher);
   },[]);
 
-  const hitBox={
-    height:"100px",
-    width:"100px",
-    backgroundColor:color
-  };
 
   return (
     <div className="App">
@@ -43,7 +40,18 @@ function App() {
       <p>{position.z===null?"No info to report": position.z}</p>
       {error}
 
-      <div style={hitBox}></div>
+      <div style={{height:"600px", width:"600px"}}>
+        <GoogleMapReact
+          bootstrapURLKeys={{key: "AIzaSyAroi5UF-gCX8V1vi44aApurvJEiBKJEos"}}
+          defaultCenter={[29,31]}
+          defaultZoom={20}
+        >
+
+          <Circle lat={29.9792} lng={31.1342}/>
+
+        </GoogleMapReact>
+      </div>
+
     </div>
   );
 }
